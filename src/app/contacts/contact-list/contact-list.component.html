@@ -7,14 +7,10 @@
   </div>
   <div class="panel-body">
     <div class="col xs 12">
-      <a href="#" class="list-group-item clearfix" *ngFor="let contact of contacts">
-        <div class="pull-left">
-          <h3 class="list-group-item-heading pull-left">{{ contact.name }}</h3>
-        </div>
-        <span class="pull-right">
-          <img src="{{contact.imageUrl}}" alt="{{contact.name}}" class="img-responsive" style="max-height: 50px;">
-        </span>
-      </a>
+      <app-contact-item
+        *ngFor="let contactEl of contacts"
+        [connie]="contactEl"
+        (contactSelected)="onContactSelected(contactEl)"></app-contact-item>
     </div>
   </div>
 </div>

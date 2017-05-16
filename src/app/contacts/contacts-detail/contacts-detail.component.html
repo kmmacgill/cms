@@ -1,19 +1,19 @@
 <div class="panel panel-default">
   <div class="panel-heading clearfix">
     <h1 class="panel-title">
-      R. Kent Jackson
+      {{ contact.name }}
     </h1>
-    <img src="https://web.byui.edu/Directory/Employee/jacksonk.jpg" alt="Bro. Jackson" class="img-responsive pull-left" style="max-height: 50px;">
+    <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-responsive pull-left" style="max-height: 50px;">
     <button class="btn btn-danger pull-right">Delete</button>
     <button class="btn btn-primary pull-right">Edit</button>
   </div>
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-12">
-        Email
+        Email: {{ contact.email }}
       </div>
       <div class="col-xs-12">
-        Phone
+        Phone: {{ contact.phone }}
       </div>
     </div>
   </div>
