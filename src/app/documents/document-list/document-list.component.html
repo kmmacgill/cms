@@ -1,1 +1,16 @@
-<p>Document List Works!</p>
+<div class="panel panel-default">
+  <div class="panel-heading clearfix">
+    <div class="row pad-left-right">
+      <span class="pull-left title">Documents</span>
+      <a class="btn btn-success pull-right">Add Document</a>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="center-panel">
+      <app-document-item
+        *ngFor="let documentEl of documents"
+        [doc]="documentEl"
+        (documentSelected)="onSelectedDocument(documentEl)"></app-document-item>
+    </div>
+  </div>
+</div>

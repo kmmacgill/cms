@@ -6,7 +6,7 @@
   <div class="col-md-4">
     <app-contacts-detail
       *ngIf="selectedContact; else  infoText"
-    [contact]="selectedContact"></app-contacts-detail>
+      [contact]="selectedContact"></app-contacts-detail>
     <ng-template #infoText>
       <p>Please Select a contact"</p>
     </ng-template>
