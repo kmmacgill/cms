@@ -1,5 +1,7 @@
 import {Component, ElementRef, EventEmitter, OnInit, Output, ViewChild} from '@angular/core';
 import {Message} from "../message.model";
+import {MessageService} from "../message.service";
+import {toBase64String} from "@angular/compiler/src/output/source_map";
 
 @Component({
   selector: 'app-message-edit',
@@ -12,7 +14,7 @@ export class MessageEditComponent implements OnInit {
   @ViewChild('msgInput') msgText: ElementRef;
   @Output() addMessageEvent = new EventEmitter<Message>();
 
-  constructor() { }
+  constructor(private msgServer: MessageService) { }
 
   ngOnInit() {
   }
@@ -20,8 +22,9 @@ export class MessageEditComponent implements OnInit {
   onSendMessage() {
     const msgSub = this.subject.nativeElement.value;
     const msgTxt = this.msgText.nativeElement.value;
-    const newmsgSubnTxt = new Message(Math.floor(Math.random() * 10000) + 1, msgSub, msgTxt, this.currentSender);
-    this.addMessageEvent.emit(newmsgSubnTxt);
+    var id = (Math.floor(Math.random() * 18) + 1).toString();
+    const newmsgSubnTxt = new Message(id, msgSub, msgTxt, this.currentSender);
+    this.msgServer.addMessage(newmsgSubnTxt);
   }
 
   onClear() {
