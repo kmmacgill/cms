@@ -1,6 +1,8 @@
 <a
   class="list-group-item clearfix"
-  (click)="onSelected()">
+  (click)="onSelected()"
+  routerLink="{{connie.id}}"
+  routerLinkActive="active">
   <div class="pull-left">
     <h3 class="list-group-item-heading pull-left">{{connie.name}}</h3>
   </div>

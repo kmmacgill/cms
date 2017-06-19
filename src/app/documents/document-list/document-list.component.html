@@ -2,15 +2,14 @@
   <div class="panel-heading clearfix">
     <div class="row pad-left-right">
       <span class="pull-left title">Documents</span>
-      <a class="btn btn-success pull-right">Add Document</a>
+      <a class="btn btn-success pull-right" routerLink="new">Add Document</a>
     </div>
   </div>
   <div class="panel-body">
     <div class="center-panel">
       <app-document-item
         *ngFor="let documentEl of documents"
-        [doc]="documentEl"
-        (docSelected)="onSelectedDocument(documentEl)"></app-document-item>
+        [doc]="documentEl"></app-document-item>
     </div>
   </div>
 </div>

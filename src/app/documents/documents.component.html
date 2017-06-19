@@ -3,11 +3,6 @@
     <app-document-list></app-document-list>
   </div>
   <div class="col-md-5">
-    <app-document-detail
-      *ngIf="selectedDocument; else  tempInfo"
-      [document]="selectedDocument"></app-document-detail>
-    <ng-template #tempInfo>
-      <p>Please Select a Document"</p>
-    </ng-template>
+    <router-outlet></router-outlet>
   </div>
 </div>
