@@ -1,15 +1,21 @@
 import {Document} from "./document.model";
 import {EventEmitter, Output} from "@angular/core";
 import {MOCKDOCUMENTS} from "./MOCKDOCUMENTS";
+import { Subject } from 'rxjs/Subject';
+import {isUndefined} from "util";
+import {letProto} from "rxjs/operator/let";
 
 export class DocumentsService {
   @Output() documentSelectedEvent = new EventEmitter<Document>();
   @Output() documentChangedEvent = new EventEmitter<Document[]>();
+  DocumentListChangedEvent = new Subject<Document[]>();
 
   documents: Document[] = [];
+  maxDocId: number;
 
   constructor() {
     this.documents = MOCKDOCUMENTS;
+    this.maxDocId = this.getMaxId();
   }
 
   getDocuments() : Document[] {
@@ -25,8 +31,32 @@ export class DocumentsService {
     return null;
   }
 
+  getMaxId() : number {
+    let maxId = 0;
+
+    for (let i = 0; i < this.documents.length; i++) {
+      let currentId = parseInt(this.documents[i].id);
+      if (currentId > maxId) {
+        maxId = currentId;
+      }
+    }
+    return maxId;
+  }
+
+  addDocument(newDocument: Document) {
+    if (newDocument === null || isUndefined(newDocument)){
+      return;
+    }
+
+    this.maxDocId++;
+    newDocument.id = this.maxDocId.toString();
+    this.documents.push(newDocument);
+    let clone = this.documents.slice();
+    this.DocumentListChangedEvent.next(clone);
+  }
+
   deleteDocument(docum: Document) {
-    if (docum === null) {
+    if (docum === null || isUndefined(docum)) {
       return;
     }
 
@@ -35,7 +65,22 @@ export class DocumentsService {
       return;
     }
 
-    this.documents.splice(pos, 1);
-    this.documentChangedEvent.emit(this.documents.slice());
+    this.documents = this.documents.splice(pos, 1);
+    let clone = this.documents.slice();
+    this.DocumentListChangedEvent.next(clone);
+  }
+
+  updateDocument(original: Document, newDoc: Document) {
+    if (original === null || isUndefined(original) || newDoc === null || isUndefined(newDoc)) {
+      return;
+    }
+    const pos = this.documents.indexOf(original);
+    if (pos < 0) {
+      return;
+    }
+    newDoc.id = original.id;
+    this.documents[pos] = newDoc;
+    let clone = this.documents.slice();
+    this.DocumentListChangedEvent.next(clone);
   }
 }
