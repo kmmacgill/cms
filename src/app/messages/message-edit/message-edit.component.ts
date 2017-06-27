@@ -22,7 +22,7 @@ export class MessageEditComponent implements OnInit {
   onSendMessage() {
     const msgSub = this.subject.nativeElement.value;
     const msgTxt = this.msgText.nativeElement.value;
-    var id = (Math.floor(Math.random() * 18) + 1).toString();
+    var id: string = (Math.floor(Math.random() * 18) + 1).toString();
     const newmsgSubnTxt = new Message(id, msgSub, msgTxt, this.currentSender);
     this.msgServer.addMessage(newmsgSubnTxt);
   }

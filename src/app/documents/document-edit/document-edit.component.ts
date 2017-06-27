@@ -1,8 +1,9 @@
-///<reference path="../../../../node_modules/rxjs/Observable.d.ts"/>
 import { Component, OnInit } from '@angular/core';
+import {Document} from '../document.model';
 import {DocumentsService} from "../document.service";
 import {Params, Router, ActivatedRoute} from "@angular/router";
 import {isUndefined} from "util";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-document-edit',
@@ -38,6 +39,29 @@ export class DocumentEditComponent implements OnInit {
           this.document = JSON.parse(JSON.stringify(this.originalDocument));
         }
       );
+  }
+
+  onSubmit(form: NgForm) {
+    let values = form.value;
+    let newDocument: Document = new Document(
+      values.id,
+      values.name,
+      values.url,
+      values.description,
+      values.children
+    );
+
+    if (this.editMode === true) {
+      this.documentService.updateDocument(this.originalDocument, newDocument);
+    } else {
+      this.documentService.addDocument(newDocument);
+    }
+
+    this.router.navigate(["../documents"]);
+  }
+
+  onCancel() {
+    this.router.navigate(["../documents"]);
   }
 
 }

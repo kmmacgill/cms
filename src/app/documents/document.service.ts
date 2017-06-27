@@ -3,11 +3,9 @@ import {EventEmitter, Output} from "@angular/core";
 import {MOCKDOCUMENTS} from "./MOCKDOCUMENTS";
 import { Subject } from 'rxjs/Subject';
 import {isUndefined} from "util";
-import {letProto} from "rxjs/operator/let";
 
 export class DocumentsService {
   @Output() documentSelectedEvent = new EventEmitter<Document>();
-  @Output() documentChangedEvent = new EventEmitter<Document[]>();
   DocumentListChangedEvent = new Subject<Document[]>();
 
   documents: Document[] = [];
@@ -51,7 +49,7 @@ export class DocumentsService {
     this.maxDocId++;
     newDocument.id = this.maxDocId.toString();
     this.documents.push(newDocument);
-    let clone = this.documents.slice();
+    var clone: Document[] = this.documents.slice();
     this.DocumentListChangedEvent.next(clone);
   }
 
@@ -66,7 +64,7 @@ export class DocumentsService {
     }
 
     this.documents = this.documents.splice(pos, 1);
-    let clone = this.documents.slice();
+    var clone: Document[] = this.documents.slice();
     this.DocumentListChangedEvent.next(clone);
   }
 
@@ -80,7 +78,7 @@ export class DocumentsService {
     }
     newDoc.id = original.id;
     this.documents[pos] = newDoc;
-    let clone = this.documents.slice();
+    var clone: Document[] = this.documents.slice();
     this.DocumentListChangedEvent.next(clone);
   }
 }

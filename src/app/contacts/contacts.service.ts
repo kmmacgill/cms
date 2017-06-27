@@ -12,6 +12,7 @@ export class ContactsService {
   maxConId: number;
   constructor() {
     this.contacts = MOCKCONTACTS;
+    this.maxConId = this.getMaxId();
   }
 
   getContacts() : Contact[] {
@@ -50,7 +51,7 @@ export class ContactsService {
     }
     newCon.id = original.id;
     this.contacts[pos] = newCon;
-    let clone = this.contacts.slice();
+    let clone: Contact[] = this.contacts.slice();
     this.ContactListChangedEvent.next(clone);
   }
 
@@ -62,7 +63,7 @@ export class ContactsService {
     this.maxConId++;
     newCon.id = this.maxConId.toString();
     this.contacts.push(newCon);
-    let clone = this.contacts.slice();
+    let clone: Contact[] = this.contacts.slice();
     this.ContactListChangedEvent.next(clone);
   }
 
