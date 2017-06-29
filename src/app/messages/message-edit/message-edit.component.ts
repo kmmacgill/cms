@@ -11,7 +11,6 @@ import {Contact} from "../../contacts/contact.model";
   styleUrls: ['./message-edit.component.css']
 })
 export class MessageEditComponent implements OnInit {
-  currentSender = "";
   @ViewChild('subjectInput') subject: ElementRef;
   @ViewChild('msgInput') msgText: ElementRef;
   @Output() addMessageEvent = new EventEmitter<Message>();

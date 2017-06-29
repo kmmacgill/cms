@@ -6,7 +6,6 @@ import {isUndefined} from "util";
 
 export class ContactsService {
   @Output() contactSelectedEvent = new EventEmitter<Contact>();
-  @Output() contactsChangedEvent = new EventEmitter<Contact[]>();
   ContactListChangedEvent = new Subject<Contact[]>();
   contacts: Contact[] = [];
   maxConId: number;
@@ -77,7 +76,7 @@ export class ContactsService {
       return;
     }
 
-    this.contacts = this.contacts.splice(pos, 1);
+    this.contacts.splice(pos, 1);
     let clone = this.contacts.slice();
     this.ContactListChangedEvent.next(clone);
   }

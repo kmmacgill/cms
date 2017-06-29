@@ -3,13 +3,15 @@
     <h1 class="panel-title pull-left">
       Contacts
     </h1>
-    <button class="btn btn-success pull-right">New Contact</button>
+    <button class="btn btn-success pull-right" routerLink="add">New Contact</button>
   </div>
   <div class="panel-body">
     <div class="col xs 12">
       <app-contact-item
         *ngFor="let contactEl of contacts"
-        [connie]="contactEl"></app-contact-item>
+        [connie]="contactEl"
+        dnd-draggable [dragEnabled]="true" [dragData]="contactEl" [dropZones]="['contact.group']">
+      </app-contact-item>
     </div>
   </div>
 </div>

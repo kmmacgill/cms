@@ -11,13 +11,13 @@ import {ContactEditComponent} from "./contacts/contact-edit/contact-edit.compone
 const app_Routes: Routes = [
   {path: '', redirectTo: '/documents', pathMatch: 'full'},
   { path: 'documents', component: DocumentsComponent, children :[
-    {path: 'new', component: DocumentEditComponent },
+    {path: 'add', component: DocumentEditComponent },
     {path: ':id', component: DocumentDetailComponent },
     {path: ':id/edit', component: DocumentEditComponent },
   ]},
   { path: 'messages', component: MessagesComponent },
   { path: 'contacts', component: ContactsComponent, children :[
-    {path: 'new', component: ContactEditComponent },
+    {path: 'add', component: ContactEditComponent },
     {path: ':id', component: ContactsDetailComponent },
     {path: ':id/edit', component: ContactEditComponent },
   ]},

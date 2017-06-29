@@ -11,7 +11,8 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./document-edit.component.css']
 })
 export class DocumentEditComponent implements OnInit {
-  document: Document;
+  document: Document = new Document(null, null, null, null, []);
+  id: number;
   originalDocument: Document;
   editMode: boolean = false;
 
@@ -23,14 +24,14 @@ export class DocumentEditComponent implements OnInit {
     this.route.params
       .subscribe(
         (params: Params)=> {
-          let id = +params['id'].toString();
+          this.id = +params['id'];
 
-          if (id === null || isUndefined(id)) {
+          if (this.id === null || isUndefined(this.id)) {
             this.editMode = false;
             return;
           }
 
-          this.originalDocument = this.documentService.getDocument(id.toString());
+          this.originalDocument = this.documentService.getDocument(this.id.toString());
           if(this.originalDocument === null || isUndefined(this.originalDocument)) {
             return;
           }
@@ -44,11 +45,11 @@ export class DocumentEditComponent implements OnInit {
   onSubmit(form: NgForm) {
     let values = form.value;
     let newDocument: Document = new Document(
-      values.id,
-      values.name,
-      values.url,
-      values.description,
-      values.children
+      null,
+      values.documentTitle,
+      values.documentUrl,
+      values.documentDescription,
+      []
     );
 
     if (this.editMode === true) {
@@ -56,7 +57,6 @@ export class DocumentEditComponent implements OnInit {
     } else {
       this.documentService.addDocument(newDocument);
     }
-
     this.router.navigate(["../documents"]);
   }
 

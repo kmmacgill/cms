@@ -63,8 +63,8 @@ export class DocumentsService {
       return;
     }
 
-    this.documents = this.documents.splice(pos, 1);
-    var clone: Document[] = this.documents.slice();
+    this.documents.splice(pos, 1);
+    let clone: Document[] = this.documents.slice();
     this.DocumentListChangedEvent.next(clone);
   }
 
