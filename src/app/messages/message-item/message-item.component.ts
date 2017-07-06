@@ -16,7 +16,8 @@ export class MessageItemComponent implements OnInit {
   constructor(private conService: ContactsService) { }
 
   ngOnInit() {
-    let con: Contact = this.conService.getContact(this.msg.id);
+    let con = this.conService.getContact(this.msg.id); //whilst debugging this line sometimes returns null, it's
+    //inconsistent however and is working half the time i test it though. not sure why this is happening.
     this.msgSender = con.name;
   }
 

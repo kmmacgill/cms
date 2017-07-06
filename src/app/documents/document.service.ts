@@ -1,9 +1,11 @@
 import {Document} from "./document.model";
-import {EventEmitter, Output} from "@angular/core";
-import {MOCKDOCUMENTS} from "./MOCKDOCUMENTS";
-import { Subject } from 'rxjs/Subject';
+import {EventEmitter, Injectable, Output} from "@angular/core";
+import 'rxjs/RX';
+import {Subject} from 'rxjs/Subject';
 import {isUndefined} from "util";
+import {Http, Response} from "@angular/http";
 
+@Injectable()
 export class DocumentsService {
   @Output() documentSelectedEvent = new EventEmitter<Document>();
   DocumentListChangedEvent = new Subject<Document[]>();
@@ -11,9 +13,8 @@ export class DocumentsService {
   documents: Document[] = [];
   maxDocId: number;
 
-  constructor() {
-    this.documents = MOCKDOCUMENTS;
-    this.maxDocId = this.getMaxId();
+  constructor(private http:Http) {
+    this.initDocuments();
   }
 
   getDocuments() : Document[] {
@@ -50,7 +51,11 @@ export class DocumentsService {
     newDocument.id = this.maxDocId.toString();
     this.documents.push(newDocument);
     var clone: Document[] = this.documents.slice();
-    this.DocumentListChangedEvent.next(clone);
+    this.storeDocuments(clone).subscribe(
+      (response: Response) => {
+        console.log(response);
+      }
+    );
   }
 
   deleteDocument(docum: Document) {
@@ -65,7 +70,11 @@ export class DocumentsService {
 
     this.documents.splice(pos, 1);
     let clone: Document[] = this.documents.slice();
-    this.DocumentListChangedEvent.next(clone);
+    this.storeDocuments(clone).subscribe(
+      (response: Response) => {
+        console.log(response);
+      }
+    );
   }
 
   updateDocument(original: Document, newDoc: Document) {
@@ -79,6 +88,31 @@ export class DocumentsService {
     newDoc.id = original.id;
     this.documents[pos] = newDoc;
     var clone: Document[] = this.documents.slice();
-    this.DocumentListChangedEvent.next(clone);
+    this.storeDocuments(clone).subscribe(
+      (response: Response) => {
+        console.log(response);
+      }
+    );
   }
+
+  initDocuments() {
+    this.http.get('https://cit301c-server.firebaseio.com/documents.json')
+      .map(
+        (response: Response) =>{
+          return response.json();
+       }
+      )
+      .subscribe(
+        (response: Document[]) => {
+          this.documents = response;
+          this.maxDocId = this.getMaxId();
+          this.DocumentListChangedEvent.next(this.documents.slice());
+        }
+      );
+  }
+
+  storeDocuments(value: Document[]) {
+    return this.http.put('https://cit301c-server.firebaseio.com/documents.json', value);
+  }
+
 }
